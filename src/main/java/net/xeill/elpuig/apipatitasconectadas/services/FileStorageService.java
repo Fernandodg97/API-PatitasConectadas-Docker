@@ -1,65 +1,61 @@
 package net.xeill.elpuig.apipatitasconectadas.services;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.UUID;
+import java.util.Map;
 
 @Service
 public class FileStorageService {
 
-    @Value("${file.upload-dir:uploads}")
-    private String uploadDir;
+    private final Cloudinary cloudinary;
+
+    public FileStorageService(
+            @Value("${cloudinary.cloud-name}") String cloudName,
+            @Value("${cloudinary.api-key}") String apiKey,
+            @Value("${cloudinary.api-secret}") String apiSecret) {
+        this.cloudinary = new Cloudinary(ObjectUtils.asMap(
+                "cloud_name", cloudName,
+                "api_key", apiKey,
+                "api_secret", apiSecret,
+                "secure", true
+        ));
+    }
 
     public String storeFile(MultipartFile file, String type) throws IOException {
-        // Validar el archivo
         if (file == null || file.isEmpty()) {
             throw new IllegalArgumentException("El archivo está vacío");
         }
 
-        // Validar el tipo de archivo
         String contentType = file.getContentType();
         if (contentType == null || !contentType.startsWith("image/")) {
             throw new IllegalArgumentException("Solo se permiten archivos de imagen");
         }
 
-        // Crear el directorio si no existe
-        Path uploadPath = Paths.get(uploadDir, type, getCurrentYearMonth());
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
-        }
+        Map uploadResult = cloudinary.uploader().upload(file.getBytes(),
+                ObjectUtils.asMap("folder", "patitas/" + type));
 
-        // Generar nombre único para el archivo
-        String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
-        String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
-        String newFilename = UUID.randomUUID().toString() + fileExtension;
-
-        // Guardar el archivo
-        Path targetLocation = uploadPath.resolve(newFilename);
-        Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-
-        // Devolver la ruta relativa del archivo
-        return type + "/" + getCurrentYearMonth() + "/" + newFilename;
+        return (String) uploadResult.get("secure_url");
     }
 
     public String storeFile(MultipartFile file) throws IOException {
         return storeFile(file, "posts");
     }
 
-    private String getCurrentYearMonth() {
-        java.time.LocalDate now = java.time.LocalDate.now();
-        return now.getYear() + "/" + String.format("%02d", now.getMonthValue());
-    }
+    public void deleteFile(String fileUrl) throws IOException {
+        if (fileUrl == null || fileUrl.isEmpty()) return;
 
-    public void deleteFile(String filePath) throws IOException {
-        Path path = Paths.get(uploadDir, filePath);
-        Files.deleteIfExists(path);
+        // Extraer el public_id de la URL de Cloudinary
+        // URL formato: https://res.cloudinary.com/cloud/image/upload/v123/patitas/posts/filename.jpg
+        if (fileUrl.contains("cloudinary.com")) {
+            String publicId = fileUrl
+                    .replaceAll(".*upload/v\\d+/", "")
+                    .replaceAll("\\.[^.]+$", "");
+            cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
+        }
     }
-} 
+}
