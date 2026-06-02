@@ -25,7 +25,7 @@ public class UsuarioComentarioModel {
     @JoinColumn(name = "usuario_id", nullable = false)
     private UserModel usuario;
 
-    @Column(name = "like", nullable = false)
+    @Column(name = "es_like", nullable = false)
     private boolean like;
 
     @CreationTimestamp
