@@ -1,51 +1,48 @@
 # API Patitas Conectadas 🐾
 
-Backend de la red social para dueños de mascotas **Patitas Conectadas**. API REST construida con Spring Boot 3 y Java 21, con autenticación JWT, almacenamiento de imágenes en Cloudinary y base de datos PostgreSQL en Supabase. Desplegada en Render.
+[![Java](https://img.shields.io/badge/Java_21-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://openjdk.org/)
+[![Spring Boot](https://img.shields.io/badge/Spring_Boot_3-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)](https://spring.io/projects/spring-boot)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+
+Backend de la red social para dueños de mascotas **Patitas Conectadas**. API REST desarrollada con Java 21 y Spring Boot 3, con autenticación JWT, almacenamiento de imágenes en Cloudinary y base de datos PostgreSQL en Supabase. Dockerizada y desplegada en producción en Render.
 
 > **🔧 Demo API (Swagger)** → [api-patitasconectadas-docker.onrender.com/swagger-ui](https://api-patitasconectadas-docker.onrender.com/swagger-ui/index.html)
-> Usuario de prueba: `usuario@usuario.com` · Contraseña: `usuario`
+> Usuario de prueba: `usuario@usuario.com` · Contraseña: `usuario` · ⏱️ Los servicios pueden tardar ~30s en arrancar (plan gratuito de Render).
 
 ---
 
-### 👋 Para recruiters
+## 👋 Para recruiters
 
 API REST desarrollada de forma autónoma como proyecto personal de portafolio, consumida por un [frontend en React + TypeScript](https://github.com/Fernandodg97/Front-Patitas-Conectadas-render.com).
 
-**Stack:** Java 21 · Spring Boot 3 · Spring Security · JWT · PostgreSQL · Cloudinary · Docker · Supabase
+**¿Qué demuestra este proyecto?**
 
-**Destacado:**
-- 🔐 **Autenticación JWT** con Spring Security y BCrypt para contraseñas
-- ☁️ **Almacenamiento persistente de imágenes** en Cloudinary (posts, mascotas, perfiles, comentarios)
-- 🐳 **Dockerizado** con build multi-stage y despliegue listo para producción
-- 🗄️ **Base de datos en la nube** con PostgreSQL en Supabase + SSL
-- 📄 **Swagger/OpenAPI** con documentación interactiva de todos los endpoints
-- 📡 **14 controladores REST** cubriendo autenticación, posts, chat, grupos, eventos, mascotas y más
-
-### 🔑 Acceso rápido a la demo
+- ✅ Diseñar e implementar una **API REST completa** con 14 controladores, 33 DTOs y seguridad JWT desde cero
+- ✅ Aplicar **arquitectura en capas** real: controladores, servicios, repositorios y modelos correctamente separados
+- ✅ Gestionar **relaciones complejas** entre entidades con JPA: seguidos, grupos, eventos, interacciones y mascotas
+- ✅ Integrar servicios externos: **Cloudinary** para imágenes, **Supabase** para base de datos en la nube
+- ✅ **Dockerizar** la aplicación con build multi-stage y llevarla a producción en Render
 
 | | |
 |---|---|
-| **Swagger UI** | [api-patitasconectadas-docker.onrender.com/swagger-ui](https://api-patitasconectadas-docker.onrender.com/swagger-ui/index.html) |
-| **Frontend** | [front-patitas-conectadas-render-com.onrender.com](https://front-patitas-conectadas-render-com.onrender.com) |
-| **Usuario de prueba** | `usuario@usuario.com` |
-| **Contraseña** | `usuario` |
-
-> Usa `POST /auth/login` con esas credenciales para obtener el token JWT, luego pulsa **Authorize** en Swagger e introduce `Bearer <token>` para probar el resto de endpoints.
+| 🔧 **API (Swagger)** | [api-patitasconectadas-docker.onrender.com/swagger-ui](https://api-patitasconectadas-docker.onrender.com/swagger-ui/index.html) |
+| 🌐 **Frontend** | [front-patitas-conectadas-render-com.onrender.com](https://front-patitas-conectadas-render-com.onrender.com) |
+| 💻 **Repo frontend** | [Front-Patitas-Conectadas-render.com](https://github.com/Fernandodg97/Front-Patitas-Conectadas-render.com) |
+| 📁 **Proyecto completo (TFG)** | [Patitas-Conectadas](https://github.com/Fernandodg97/Patitas-Conectadas) |
 
 ---
 
-## Características
+## 🚀 Mejoras Post-Práctica
 
-- **🔒 Autenticación JWT** — Registro, login y rutas protegidas con Spring Security
-- **🏠 Posts** — Publicaciones con imagen, filtrado por contenido y rango de fechas
-- **💬 Comentarios** — Comentarios en posts con imagen opcional
-- **👥 Red Social** — Seguir usuarios, valoraciones con puntuación (1-5 estrellas)
-- **🐾 Mascotas** — Perfiles de mascotas con foto, especie, género y fecha de nacimiento
-- **📅 Eventos** — Crear eventos con ubicación, fecha y sistema de asistencia (CREADOR / ASISTENTE)
-- **👥 Grupos** — Comunidades con roles (ADMINISTRADOR / MIEMBRO) y posts propios
-- **💬 Chat** — Mensajería directa con estado visto/no visto
-- **🔔 Notificaciones** — Sistema de notificaciones por usuario
-- **🖼️ Imágenes** — Subida y eliminación automática en Cloudinary para posts, mascotas, perfiles y comentarios
+El proyecto original funcionaba en local. Tras la defensa del TFG, se retomó de forma autónoma para llevarlo a producción real:
+
+| Mejora | Detalle |
+|---|---|
+| 🐳 **Dockerización** | `Dockerfile` con build multi-stage: Maven compila en la primera etapa y solo el `.jar` se copia sobre una imagen JRE ligera |
+| ☁️ **Despliegue en producción** | Backend desplegado como contenedor Docker en Render, accesible públicamente |
+| 🖼️ **Cloudinary** | Sustitución del almacenamiento local por Cloudinary. Subida automática y eliminación de imágenes al actualizar o borrar |
+| 🗄️ **Supabase** | Migración de PostgreSQL local a Supabase con conexión SSL. Sin necesidad de instancia local para arrancar |
 
 ---
 
@@ -67,6 +64,39 @@ API REST desarrollada de forma autónoma como proyecto personal de portafolio, c
 
 ---
 
+## Funcionalidades implementadas
+
+| Módulo | Descripción |
+|---|---|
+| **Auth** | Registro, login y rutas protegidas con Spring Security + JWT |
+| **Usuarios** | CRUD completo, búsqueda por nombre/apellido y cambio de contraseña |
+| **Perfiles** | Foto, bio y fecha de nacimiento por usuario |
+| **Mascotas** | Registro con foto, especie, género y fecha de nacimiento |
+| **Posts** | Publicaciones con imagen, filtrado por contenido y rango de fechas |
+| **Comentarios** | Comentarios en posts con imagen opcional |
+| **Chat** | Mensajería directa con estado visto/no visto |
+| **Grupos** | Comunidades con roles ADMINISTRADOR / MIEMBRO y feed propio |
+| **Eventos** | Crear y apuntarse a eventos con ubicación y fecha (CREADOR / ASISTENTE) |
+| **Seguidos** | Sistema de seguimiento entre usuarios |
+| **Valoraciones** | Puntuaciones 1–5 ⭐ con comentario entre usuarios |
+| **Notificaciones** | Centro de notificaciones por usuario |
+
+---
+
+## Retos técnicos resueltos
+
+**Autenticación y seguridad** — JWT firmado con jjwt, filtros de Spring Security en cada request y BCrypt para contraseñas. Todos los endpoints de escritura requieren autenticación.
+
+**Imágenes en la nube** — Subida `multipart/form-data` al backend, que delega en Cloudinary y devuelve la URL pública. Eliminación automática de la imagen anterior al actualizar o borrar un recurso.
+
+**Relaciones complejas con JPA** — Entidades con `@OneToMany`, `@ManyToOne` y `@ManyToMany`. Tablas de unión explícitas (`usuario_grupo`, `usuario_evento`, `usuario_post`) con roles propios.
+
+**DTOs para desacoplar capas** — 33 DTOs de entrada y salida que evitan exponer las entidades JPA directamente y permiten controlar exactamente qué datos se serializan en cada respuesta.
+
+**Despliegue como contenedor** — Build multi-stage en Docker: la imagen de producción solo contiene el `.jar` sobre una JRE ligera, sin el toolchain de Maven.
+
+---
+
 ## 📡 Endpoints principales
 
 ### Auth
@@ -83,7 +113,6 @@ API REST desarrollada de forma autónoma como proyecto personal de portafolio, c
 | GET | `/usuarios/buscar` | Buscar por nombre y/o apellido |
 | GET | `/usuarios/{id}` | Obtener usuario por ID |
 | PUT | `/usuarios/{id}` | Actualizar usuario |
-| PATCH | `/usuarios/{id}` | Actualización parcial |
 | PATCH | `/usuarios/{id}/password` | Cambiar contraseña |
 | DELETE | `/usuarios/{id}` | Eliminar usuario |
 | GET | `/usuarios/{id}/perfiles` | Obtener perfil |
@@ -127,11 +156,11 @@ API REST desarrollada de forma autónoma como proyecto personal de portafolio, c
 | Método | Ruta | Descripción |
 |---|---|---|
 | GET | `/grupos` | Listar grupos |
-| POST | `/grupos?usuarioId={id}` | Crear grupo (asigna al usuario como Admin) |
+| POST | `/grupos?usuarioId={id}` | Crear grupo (usuario queda como ADMINISTRADOR) |
 | PUT | `/grupos/{id}` | Actualizar grupo |
 | DELETE | `/grupos/{id}` | Eliminar grupo |
 | GET | `/eventos` | Listar eventos |
-| POST | `/eventos?usuarioId={id}` | Crear evento (asigna al usuario como CREADOR) |
+| POST | `/eventos?usuarioId={id}` | Crear evento (usuario queda como CREADOR) |
 | PUT | `/eventos/{id}` | Actualizar evento |
 | DELETE | `/eventos/{id}` | Eliminar evento |
 
@@ -240,6 +269,7 @@ src/main/java/net/xeill/elpuig/apipatitasconectadas/
 |---|---|
 | [API-PatitasConectadas-Docker](https://github.com/Fernandodg97/API-PatitasConectadas-Docker) | Este repositorio — Spring Boot 3 + Docker |
 | [Front-Patitas-Conectadas-render.com](https://github.com/Fernandodg97/Front-Patitas-Conectadas-render.com) | Frontend — React 19 + TypeScript |
+| [Patitas-Conectadas](https://github.com/Fernandodg97/Patitas-Conectadas) | Proyecto completo — TFG con memoria y presentación |
 
 ---
 
