@@ -16,6 +16,16 @@ API REST para una **red social de dueños de mascotas**, desarrollada de forma a
 - 📄 **Swagger/OpenAPI** disponible en `/swagger-ui/index.html#/`
 - 📡 **14 controladores REST** cubriendo autenticación, posts, chat, grupos, eventos, mascotas y más
 
+### 🔑 Acceso rápido a la demo
+
+| | |
+|---|---|
+| **Swagger UI** | [api-patitasconectadas-docker.onrender.com/swagger-ui/index.html](https://api-patitasconectadas-docker.onrender.com/swagger-ui/index.html) |
+| **Usuario de prueba** | `usuario@usuario.com` |
+| **Contraseña** | `usuario` |
+
+> Usa `POST /auth/login` con esas credenciales para obtener el token JWT, luego pulsa **Authorize** en Swagger e introduce `Bearer <token>` para probar el resto de endpoints.
+
 ---
 
 ## 🧠 ¿Qué es Patitas Conectadas?
