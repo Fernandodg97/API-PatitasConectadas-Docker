@@ -1,26 +1,32 @@
-# API Patitas Conectadas
+# API Patitas Conectadas 🐾
+
+Backend de la red social para dueños de mascotas **Patitas Conectadas**. API REST construida con Spring Boot 3 y Java 21, con autenticación JWT, almacenamiento de imágenes en Cloudinary y base de datos PostgreSQL en Supabase. Desplegada en Render.
+
+> **🔧 Demo API (Swagger)** → [api-patitasconectadas-docker.onrender.com/swagger-ui](https://api-patitasconectadas-docker.onrender.com/swagger-ui/index.html)
+> Usuario de prueba: `usuario@usuario.com` · Contraseña: `usuario`
 
 ---
 
 ### 👋 Para recruiters
 
-API REST para una **red social de dueños de mascotas**, desarrollada de forma autónoma como proyecto personal de portafolio.
+API REST desarrollada de forma autónoma como proyecto personal de portafolio, consumida por un [frontend en React + TypeScript](https://github.com/Fernandodg97/Front-Patitas-Conectadas-render.com).
 
 **Stack:** Java 21 · Spring Boot 3 · Spring Security · JWT · PostgreSQL · Cloudinary · Docker · Supabase
 
 **Destacado:**
 - 🔐 **Autenticación JWT** con Spring Security y BCrypt para contraseñas
-- ☁️ **Almacenamiento persistente de imágenes** en Cloudinary (posts, mascotas, perfiles)
+- ☁️ **Almacenamiento persistente de imágenes** en Cloudinary (posts, mascotas, perfiles, comentarios)
 - 🐳 **Dockerizado** con build multi-stage y despliegue listo para producción
 - 🗄️ **Base de datos en la nube** con PostgreSQL en Supabase + SSL
-- 📄 **Swagger/OpenAPI** disponible en `/swagger-ui/index.html#/`
+- 📄 **Swagger/OpenAPI** con documentación interactiva de todos los endpoints
 - 📡 **14 controladores REST** cubriendo autenticación, posts, chat, grupos, eventos, mascotas y más
 
 ### 🔑 Acceso rápido a la demo
 
 | | |
 |---|---|
-| **Swagger UI** | [api-patitasconectadas-docker.onrender.com/swagger-ui/index.html](https://api-patitasconectadas-docker.onrender.com/swagger-ui/index.html) |
+| **Swagger UI** | [api-patitasconectadas-docker.onrender.com/swagger-ui](https://api-patitasconectadas-docker.onrender.com/swagger-ui/index.html) |
+| **Frontend** | [front-patitas-conectadas-render-com.onrender.com](https://front-patitas-conectadas-render-com.onrender.com) |
 | **Usuario de prueba** | `usuario@usuario.com` |
 | **Contraseña** | `usuario` |
 
@@ -28,20 +34,22 @@ API REST para una **red social de dueños de mascotas**, desarrollada de forma a
 
 ---
 
-## 🧠 ¿Qué es Patitas Conectadas?
+## Características
 
-Una plataforma social pensada para conectar a dueños de mascotas. Los usuarios pueden:
-
-- Crear un perfil personal con foto, descripción y sus mascotas
-- Publicar posts con imágenes y comentarlos
-- Chatear directamente con otros usuarios
-- Crear y unirse a grupos temáticos (paseos, razas, etc.)
-- Organizar y apuntarse a eventos
-- Seguir a otros usuarios y valorarlos con puntuación de 1 a 5 estrellas
+- **🔒 Autenticación JWT** — Registro, login y rutas protegidas con Spring Security
+- **🏠 Posts** — Publicaciones con imagen, filtrado por contenido y rango de fechas
+- **💬 Comentarios** — Comentarios en posts con imagen opcional
+- **👥 Red Social** — Seguir usuarios, valoraciones con puntuación (1-5 estrellas)
+- **🐾 Mascotas** — Perfiles de mascotas con foto, especie, género y fecha de nacimiento
+- **📅 Eventos** — Crear eventos con ubicación, fecha y sistema de asistencia (CREADOR / ASISTENTE)
+- **👥 Grupos** — Comunidades con roles (ADMINISTRADOR / MIEMBRO) y posts propios
+- **💬 Chat** — Mensajería directa con estado visto/no visto
+- **🔔 Notificaciones** — Sistema de notificaciones por usuario
+- **🖼️ Imágenes** — Subida y eliminación automática en Cloudinary para posts, mascotas, perfiles y comentarios
 
 ---
 
-## 🚀 Tecnologías
+## Stack Tecnológico
 
 | Categoría | Tecnología |
 |---|---|
@@ -55,6 +63,8 @@ Una plataforma social pensada para conectar a dueños de mascotas. Los usuarios 
 | Contenedores | Docker (multi-stage, eclipse-temurin:21) |
 | Pool de conexiones | HikariCP |
 
+**Frontend asociado:** React 19 · TypeScript · Vite 6 · Tailwind CSS · React Router v6 · Axios
+
 ---
 
 ## 📡 Endpoints principales
@@ -64,17 +74,20 @@ Una plataforma social pensada para conectar a dueños de mascotas. Los usuarios 
 |---|---|---|
 | POST | `/auth/register` | Registro de usuario |
 | POST | `/auth/login` | Login — devuelve JWT |
-| GET | `/auth/me` | Usuario autenticado actual con perfil y mascotas |
+| GET | `/auth/me` | Usuario autenticado con perfil y mascotas |
 
 ### Usuarios y perfiles
 | Método | Ruta | Descripción |
 |---|---|---|
 | GET | `/usuarios` | Listar usuarios |
+| GET | `/usuarios/buscar` | Buscar por nombre y/o apellido |
 | GET | `/usuarios/{id}` | Obtener usuario por ID |
 | PUT | `/usuarios/{id}` | Actualizar usuario |
+| PATCH | `/usuarios/{id}` | Actualización parcial |
+| PATCH | `/usuarios/{id}/password` | Cambiar contraseña |
 | DELETE | `/usuarios/{id}` | Eliminar usuario |
-| GET | `/perfiles/{id}` | Obtener perfil con imagen |
-| PUT | `/perfiles/{id}` | Actualizar perfil (multipart) |
+| GET | `/usuarios/{id}/perfiles` | Obtener perfil |
+| PUT | `/usuarios/{id}/perfiles` | Actualizar perfil (multipart) |
 
 ### Mascotas
 | Método | Ruta | Descripción |
@@ -87,36 +100,43 @@ Una plataforma social pensada para conectar a dueños de mascotas. Los usuarios 
 ### Posts y comentarios
 | Método | Ruta | Descripción |
 |---|---|---|
-| GET | `/posts` | Listar todos los posts |
+| GET | `/posts` | Listar posts (filtros: contenido, fechaInicio, fechaFin) |
 | POST | `/posts` | Crear post con imagen (multipart) |
 | PUT | `/posts/{id}` | Actualizar post |
 | DELETE | `/posts/{id}` | Eliminar post |
-| GET | `/comentarios/post/{postId}` | Comentarios de un post |
-| POST | `/comentarios` | Añadir comentario con imagen |
+| GET | `/usuarios/{id}/posts` | Posts de un usuario |
+| GET | `/grupos/{id}/posts` | Posts de un grupo |
+| GET | `/posts/{id}/comentarios` | Comentarios de un post |
+| POST | `/posts/{id}/comentarios` | Añadir comentario |
+| DELETE | `/comentarios/{id}` | Eliminar comentario |
 
 ### Social
 | Método | Ruta | Descripción |
 |---|---|---|
 | POST | `/chat/enviar` | Enviar mensaje directo |
-| GET | `/chat/conversacion` | Obtener conversación entre dos usuarios |
-| PATCH | `/chat/marcar-leido` | Marcar mensajes como leídos |
-| POST | `/seguido` | Seguir a un usuario |
-| DELETE | `/seguido` | Dejar de seguir |
-| POST | `/valoracion` | Valorar a un usuario (1-5 estrellas) |
+| GET | `/chat/conversacion/{u1}/{u2}` | Conversación entre dos usuarios |
+| PUT | `/chat/marcar-vistos/{u1}/{u2}` | Marcar mensajes como leídos |
+| GET | `/chat/no-vistos/{id}` | Mensajes no leídos |
+| GET | `/usuarios/{id}/seguidos` | Usuarios que sigue |
+| POST | `/usuarios/{id}/seguidos/{seguidoId}` | Seguir usuario |
+| DELETE | `/usuarios/{id}/seguidos/{seguidoId}` | Dejar de seguir |
+| POST | `/valoraciones/usuarios/{autorId}/receptor/{receptorId}` | Valorar usuario |
+| GET | `/valoraciones/usuarios/{id}/recibidas` | Valoraciones recibidas |
 
 ### Grupos y eventos
 | Método | Ruta | Descripción |
 |---|---|---|
 | GET | `/grupos` | Listar grupos |
-| POST | `/grupos` | Crear grupo |
-| GET | `/grupos/{id}/miembros` | Miembros de un grupo |
+| POST | `/grupos?usuarioId={id}` | Crear grupo (asigna al usuario como Admin) |
+| PUT | `/grupos/{id}` | Actualizar grupo |
+| DELETE | `/grupos/{id}` | Eliminar grupo |
 | GET | `/eventos` | Listar eventos |
-| POST | `/eventos` | Crear evento |
+| POST | `/eventos?usuarioId={id}` | Crear evento (asigna al usuario como CREADOR) |
+| PUT | `/eventos/{id}` | Actualizar evento |
+| DELETE | `/eventos/{id}` | Eliminar evento |
 
-> Documentación interactiva completa en `/swagger-ui/index.html#/`
->
-> Para ejemplos JSON detallados de cada endpoint, consulta [API-DOCS.md](API-DOCS.md).
-> Para información sobre el manejo de imágenes y configuración de Cloudinary, consulta [FileStorage.md](FileStorage.md).
+> Documentación interactiva completa en [Swagger UI](https://api-patitasconectadas-docker.onrender.com/swagger-ui/index.html).
+> Para ejemplos JSON detallados consulta [API-DOCS.md](API-DOCS.md). Para información sobre imágenes consulta [FileStorage.md](FileStorage.md).
 
 ---
 
@@ -136,22 +156,22 @@ Una plataforma social pensada para conectar a dueños de mascotas. Los usuarios 
 - **valoracion** — puntuaciones entre usuarios (1-5 + comentario)
 - **notificaciones** — sistema de notificaciones
 - **usuario_evento** — asistencia a eventos (CREADOR / ASISTENTE)
-- **usuario_grupo** — membresía en grupos (Admin / Miembro)
+- **usuario_grupo** — membresía en grupos (ADMINISTRADOR / MIEMBRO)
 - **usuario_post** — interacciones con posts
 
 ---
 
 ## 🔐 Autenticación
 
-La API usa JWT. Para acceder a los endpoints protegidos:
-
-1. `POST /auth/login` con `email` y `password`
-2. Copiar el token de la respuesta
-3. Incluirlo en el header de las siguientes peticiones:
+1. `POST /auth/register` — Registro de nuevo usuario
+2. `POST /auth/login` — Devuelve un **token JWT**
+3. Incluir el token en cada petición protegida:
 
 ```
 Authorization: Bearer <token>
 ```
+
+4. `GET /auth/me` — Devuelve el usuario autenticado con su perfil y mascotas
 
 ---
 
@@ -190,6 +210,13 @@ Requisitos: **Java 21** y **Maven**
 ./mvnw spring-boot:run
 ```
 
+O compilar y ejecutar el JAR:
+
+```bash
+./mvnw clean package
+java -jar target/ApiPatitasConectadas-*.jar
+```
+
 ---
 
 ## 📂 Estructura del proyecto
@@ -207,10 +234,19 @@ src/main/java/net/xeill/elpuig/apipatitasconectadas/
 
 ---
 
-## Autores
+## Repositorios del Proyecto
 
-- [@Fernandodg97](https://github.com/Fernandodg97)
+| Repositorio | Descripción |
+|---|---|
+| [API-PatitasConectadas-Docker](https://github.com/Fernandodg97/API-PatitasConectadas-Docker) | Este repositorio — Spring Boot 3 + Docker |
+| [Front-Patitas-Conectadas-render.com](https://github.com/Fernandodg97/Front-Patitas-Conectadas-render.com) | Frontend — React 19 + TypeScript |
+
+---
 
 ## Licencia
 
 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)
+
+---
+
+<p align="center">Made with ❤️ for animals everywhere</p>
