@@ -273,6 +273,20 @@ src/main/java/net/xeill/elpuig/apipatitasconectadas/
 
 ---
 
+## Nota obtenida
+9 /10
+
+---
+
+## Autores
+
+| | |
+|---|---|
+| **Fernando Diaz** | [github.com/Fernandodg97](https://github.com/Fernandodg97) |
+| **Mouad Sedjari** | [github.com/Msedjari](https://github.com/Msedjari) |
+
+---
+
 ## Licencia
 
 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)
