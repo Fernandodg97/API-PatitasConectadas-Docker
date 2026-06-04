@@ -104,6 +104,9 @@ Una plataforma social pensada para conectar a dueños de mascotas. Los usuarios 
 | POST | `/eventos` | Crear evento |
 
 > Documentación interactiva completa en `/swagger-ui/index.html#/`
+>
+> Para ejemplos JSON detallados de cada endpoint, consulta [API-DOCS.md](API-DOCS.md).
+> Para información sobre el manejo de imágenes y configuración de Cloudinary, consulta [FileStorage.md](FileStorage.md).
 
 ---
 
