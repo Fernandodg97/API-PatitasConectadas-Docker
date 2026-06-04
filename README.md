@@ -14,7 +14,7 @@ Backend de la red social para dueños de mascotas **Patitas Conectadas**. API RE
 
 ## 👋 Para recruiters
 
-API REST desarrollada de forma autónoma como proyecto personal de portafolio, consumida por un [frontend en React + TypeScript](https://github.com/Fernandodg97/Front-Patitas-Conectadas-render.com).
+Backend completo de una red social para dueños de mascotas, construido de cero como Proyecto Final de Grado (DAW) y llevado a producción de forma autónoma tras la entrega.
 
 **¿Qué demuestra este proyecto?**
 
