@@ -33,7 +33,7 @@ CREATE TABLE public.usuario (
 );
 
 
-ALTER TABLE public.usuario OWNER TO mouad;
+ALTER TABLE public.usuario OWNER TO postgres;
 
 --
 -- Name: Usuario_id_seq; Type: SEQUENCE; Schema: public; Owner: mouad
@@ -48,7 +48,7 @@ CREATE SEQUENCE public."Usuario_id_seq"
     CACHE 1;
 
 
-ALTER SEQUENCE public."Usuario_id_seq" OWNER TO mouad;
+ALTER SEQUENCE public."Usuario_id_seq" OWNER TO postgres;
 
 --
 -- Name: Usuario_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mouad
@@ -73,7 +73,7 @@ CREATE TABLE public.chat (
 );
 
 
-ALTER TABLE public.chat OWNER TO mouad;
+ALTER TABLE public.chat OWNER TO postgres;
 
 --
 -- Name: chat_id_seq; Type: SEQUENCE; Schema: public; Owner: mouad
@@ -105,7 +105,7 @@ CREATE TABLE public.comentario (
 );
 
 
-ALTER TABLE public.comentario OWNER TO mouad;
+ALTER TABLE public.comentario OWNER TO postgres;
 
 --
 -- Name: comentario_id_seq; Type: SEQUENCE; Schema: public; Owner: mouad
@@ -134,7 +134,7 @@ CREATE TABLE public.evento (
 );
 
 
-ALTER TABLE public.evento OWNER TO mouad;
+ALTER TABLE public.evento OWNER TO postgres;
 
 --
 -- Name: evento_id_seq; Type: SEQUENCE; Schema: public; Owner: mouad
@@ -161,7 +161,7 @@ CREATE TABLE public.grupo (
 );
 
 
-ALTER TABLE public.grupo OWNER TO mouad;
+ALTER TABLE public.grupo OWNER TO postgres;
 
 --
 -- Name: grupo_id_seq; Type: SEQUENCE; Schema: public; Owner: mouad
@@ -176,7 +176,7 @@ CREATE SEQUENCE public.grupo_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.grupo_id_seq OWNER TO mouad;
+ALTER SEQUENCE public.grupo_id_seq OWNER TO postgres;
 
 --
 -- Name: grupo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mouad
@@ -200,7 +200,7 @@ CREATE TABLE public.mascota (
 );
 
 
-ALTER TABLE public.mascota OWNER TO mouad;
+ALTER TABLE public.mascota OWNER TO postgres;
 
 --
 -- Name: mascota_id_seq; Type: SEQUENCE; Schema: public; Owner: mouad
@@ -226,7 +226,7 @@ CREATE TABLE public.notificaciones (
 );
 
 
-ALTER TABLE public.notificaciones OWNER TO mouad;
+ALTER TABLE public.notificaciones OWNER TO postgres;
 
 --
 -- Name: notificaciones_id_seq; Type: SEQUENCE; Schema: public; Owner: mouad
@@ -255,7 +255,7 @@ CREATE TABLE public.perfil (
 );
 
 
-ALTER TABLE public.perfil OWNER TO mouad;
+ALTER TABLE public.perfil OWNER TO postgres;
 
 --
 -- Name: perfil_id_seq; Type: SEQUENCE; Schema: public; Owner: mouad
@@ -270,7 +270,7 @@ CREATE SEQUENCE public.perfil_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.perfil_id_seq OWNER TO mouad;
+ALTER SEQUENCE public.perfil_id_seq OWNER TO postgres;
 
 --
 -- Name: perfil_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mouad
@@ -295,7 +295,7 @@ CREATE TABLE public.post (
 );
 
 
-ALTER TABLE public.post OWNER TO mouad;
+ALTER TABLE public.post OWNER TO postgres;
 
 --
 -- Name: post_id_seq; Type: SEQUENCE; Schema: public; Owner: mouad
@@ -310,7 +310,7 @@ CREATE SEQUENCE public.post_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.post_id_seq OWNER TO mouad;
+ALTER SEQUENCE public.post_id_seq OWNER TO postgres;
 
 --
 -- Name: post_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mouad
@@ -330,7 +330,7 @@ CREATE TABLE public.seguido (
 );
 
 
-ALTER TABLE public.seguido OWNER TO mouad;
+ALTER TABLE public.seguido OWNER TO postgres;
 
 --
 -- Name: seguido_id_seq; Type: SEQUENCE; Schema: public; Owner: mouad
@@ -358,7 +358,7 @@ CREATE TABLE public.usuario_evento (
 );
 
 
-ALTER TABLE public.usuario_evento OWNER TO mouad;
+ALTER TABLE public.usuario_evento OWNER TO postgres;
 
 --
 -- Name: usuario_evento_id_seq; Type: SEQUENCE; Schema: public; Owner: mouad
@@ -386,7 +386,7 @@ CREATE TABLE public.usuario_grupo (
 );
 
 
-ALTER TABLE public.usuario_grupo OWNER TO mouad;
+ALTER TABLE public.usuario_grupo OWNER TO postgres;
 
 --
 -- Name: usuario_grupo_id_seq; Type: SEQUENCE; Schema: public; Owner: mouad
@@ -401,7 +401,7 @@ CREATE SEQUENCE public.usuario_grupo_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.usuario_grupo_id_seq OWNER TO mouad;
+ALTER SEQUENCE public.usuario_grupo_id_seq OWNER TO postgres;
 
 --
 -- Name: usuario_grupo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mouad
@@ -422,7 +422,7 @@ CREATE TABLE public.usuario_post (
 );
 
 
-ALTER TABLE public.usuario_post OWNER TO mouad;
+ALTER TABLE public.usuario_post OWNER TO postgres;
 
 --
 -- Name: usuario_post_id_seq; Type: SEQUENCE; Schema: public; Owner: mouad
@@ -455,7 +455,7 @@ CREATE TABLE public.valoracion (
 );
 
 
-ALTER TABLE public.valoracion OWNER TO fernando;
+ALTER TABLE public.valoracion OWNER TO postgres;
 
 --
 -- Name: valoracion_id_seq; Type: SEQUENCE; Schema: public; Owner: fernando
@@ -469,7 +469,7 @@ CREATE SEQUENCE public.valoracion_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.valoracion_id_seq OWNER TO fernando;
+ALTER SEQUENCE public.valoracion_id_seq OWNER TO postgres;
 
 --
 -- Name: valoracion_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: fernando
