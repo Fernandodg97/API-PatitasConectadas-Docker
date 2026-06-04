@@ -1695,14 +1695,14 @@ imagen: [nuevo archivo de imagen]
     "id": 1,
     "usuarioId": 1,
     "comentarioId": 1,
-    "like": true,
+    "es_like": true,
     "fecha": "2024-03-20T15:30:00"
   },
   {
     "id": 2,
     "usuarioId": 2,
     "comentarioId": 1,
-    "like": false,
+    "es_like": false,
     "fecha": "2024-03-20T15:35:00"
   }
 ]
@@ -1710,7 +1710,7 @@ imagen: [nuevo archivo de imagen]
 
 **Notas:**
 - La fecha se genera automáticamente al crear la relación
-- El campo 'like' indica si el usuario dio like (true) o dislike (false) al comentario
+- El campo 'es_like' indica si el usuario dio like (true) o dislike (false) al comentario
 
 ### `GET /usuario-comentario/{id}`
 **Descripción:** Obtiene una relación específica entre usuario y comentario por su ID.
@@ -1721,7 +1721,7 @@ imagen: [nuevo archivo de imagen]
   "id": 1,
   "usuarioId": 1,
   "comentarioId": 1,
-  "like": true,
+  "es_like": true,
   "fecha": "2024-03-20T15:30:00"
 }
 ```
@@ -1739,14 +1739,14 @@ imagen: [nuevo archivo de imagen]
     "id": 1,
     "usuarioId": 1,
     "comentarioId": 1,
-    "like": true,
+    "es_like": true,
     "fecha": "2024-03-20T15:30:00"
   },
   {
     "id": 3,
     "usuarioId": 1,
     "comentarioId": 2,
-    "like": false,
+    "es_like": false,
     "fecha": "2024-03-20T16:00:00"
   }
 ]
@@ -1766,14 +1766,14 @@ imagen: [nuevo archivo de imagen]
     "id": 1,
     "usuarioId": 1,
     "comentarioId": 1,
-    "like": true,
+    "es_like": true,
     "fecha": "2024-03-20T15:30:00"
   },
   {
     "id": 2,
     "usuarioId": 2,
     "comentarioId": 1,
-    "like": false,
+    "es_like": false,
     "fecha": "2024-03-20T15:35:00"
   }
 ]
@@ -1816,7 +1816,7 @@ imagen: [nuevo archivo de imagen]
 {
   "usuarioId": 1,
   "comentarioId": 1,
-  "like": true
+  "es_like": true
 }
 ```
 
@@ -1826,7 +1826,7 @@ imagen: [nuevo archivo de imagen]
   "id": 1,
   "usuarioId": 1,
   "comentarioId": 1,
-  "like": true,
+  "es_like": true,
   "fecha": "2024-03-20T15:30:00"
 }
 ```
@@ -1873,31 +1873,6 @@ Status: 204 No Content
 **Notas:**
 - Si el comentario no existe, se devolverá un error 404 Not Found
 - Si la eliminación es exitosa, se devolverá un status 204 sin contenido
-
-### `GET /usuario-comentario/post/{postId}`
-**Descripción:** Obtiene todas las relaciones de un post específico con usuarios.
-
-**Ejemplo Response:**
-```json
-[
-  {
-    "id": 1,
-    "postId": 1,
-    "usuarioId": 1,
-    "fecha": "2024-03-20T15:30:00"
-  },
-  {
-    "id": 3,
-    "postId": 1,
-    "usuarioId": 2,
-    "fecha": "2024-03-20T15:35:00"
-  }
-]
-```
-
-**Notas:**
-- Si el post no existe, se devolverá un error 404 Not Found
-- Si el post no tiene relaciones, se devolverá una lista vacía
 
 ### 14.2. Usuario-Evento
 
@@ -2451,7 +2426,7 @@ Status: 204 No Content
     "usuarioId": 1,
     "comentarioId": 1,
     "postId": null,
-    "like": true,
+    "es_like": true,
     "fecha": "2024-03-20T15:30:00"
   },
   {
@@ -2459,7 +2434,7 @@ Status: 204 No Content
     "usuarioId": 2,
     "comentarioId": null,
     "postId": 1,
-    "like": false,
+    "es_like": false,
     "fecha": "2024-03-20T15:35:00"
   }
 ]
@@ -2467,7 +2442,7 @@ Status: 204 No Content
 
 **Notas:**
 - La fecha se genera automáticamente al crear la relación
-- El campo 'like' indica si el usuario dio like (true) o dislike (false)
+- El campo 'es_like' indica si el usuario dio like (true) o dislike (false)
 - Cada interacción debe estar asociada a un comentario O un post, nunca a ambos
 
 ### `GET /usuario-interaccion/{id}`
@@ -2480,7 +2455,7 @@ Status: 204 No Content
   "usuarioId": 1,
   "comentarioId": 1,
   "postId": null,
-  "like": true,
+  "es_like": true,
   "fecha": "2024-03-20T15:30:00"
 }
 ```
@@ -2499,7 +2474,7 @@ Status: 204 No Content
     "usuarioId": 1,
     "comentarioId": 1,
     "postId": null,
-    "like": true,
+    "es_like": true,
     "fecha": "2024-03-20T15:30:00"
   },
   {
@@ -2507,7 +2482,7 @@ Status: 204 No Content
     "usuarioId": 1,
     "comentarioId": null,
     "postId": 2,
-    "like": false,
+    "es_like": false,
     "fecha": "2024-03-20T16:00:00"
   }
 ]
@@ -2528,7 +2503,7 @@ Status: 204 No Content
     "usuarioId": 1,
     "comentarioId": 1,
     "postId": null,
-    "like": true,
+    "es_like": true,
     "fecha": "2024-03-20T15:30:00"
   },
   {
@@ -2536,7 +2511,7 @@ Status: 204 No Content
     "usuarioId": 2,
     "comentarioId": 1,
     "postId": null,
-    "like": false,
+    "es_like": false,
     "fecha": "2024-03-20T15:35:00"
   }
 ]
@@ -2557,7 +2532,7 @@ Status: 204 No Content
     "usuarioId": 1,
     "comentarioId": null,
     "postId": 1,
-    "like": true,
+    "es_like": true,
     "fecha": "2024-03-20T15:30:00"
   },
   {
@@ -2565,7 +2540,7 @@ Status: 204 No Content
     "usuarioId": 2,
     "comentarioId": null,
     "postId": 1,
-    "like": false,
+    "es_like": false,
     "fecha": "2024-03-20T15:35:00"
   }
 ]
@@ -2584,7 +2559,7 @@ Status: 204 No Content
   "usuarioId": 1,
   "comentarioId": 1,
   "postId": null,
-  "like": true
+  "es_like": true
 }
 ```
 o
@@ -2593,7 +2568,7 @@ o
   "usuarioId": 1,
   "comentarioId": null,
   "postId": 1,
-  "like": true
+  "es_like": true
 }
 ```
 
@@ -2604,7 +2579,7 @@ o
   "usuarioId": 1,
   "comentarioId": 1,
   "postId": null,
-  "like": true,
+  "es_like": true,
   "fecha": "2024-03-20T15:30:00"
 }
 ```
@@ -2612,7 +2587,7 @@ o
 **Notas:**
 - El usuarioId es obligatorio
 - Debe especificarse comentarioId O postId, pero no ambos
-- El campo like es obligatorio
+- El campo es_like es obligatorio
 - No se puede crear una relación duplicada entre el mismo usuario y comentario/post
 - El usuario, comentario (si se especifica) y post (si se especifica) deben existir
 - La fecha se genera automáticamente
@@ -2665,75 +2640,3 @@ Status: 204 No Content
 **Notas:**
 - Si el post no existe, se devolverá un error 404 Not Found
 - Si la eliminación es exitosa, se devolverá un status 204 sin contenido
-
-### Mascotas
-
-#### POST /mascotas
-Crea una nueva mascota.
-
-**Parámetros:**
-- `nombre` (string, requerido): Nombre de la mascota
-- `genero` (string, requerido): Género de la mascota (Macho/Hembra)
-- `especie` (string, requerido): Especie de la mascota
-- `usuarioId` (number, requerido): ID del usuario propietario
-- `fechaNacimiento` (string, opcional): Fecha de nacimiento de la mascota en formato YYYY-MM-DD
-- `foto` (file, opcional): Foto de la mascota
-
-**Respuesta:**
-```json
-{
-  "id": 1,
-  "nombre": "Nombre de la mascota",
-  "genero": "Macho",
-  "especie": "Perro",
-  "usuarioId": 1,
-  "fechaNacimiento": "2020-01-01",
-  "foto": "/uploads/mascotas/nombre-archivo.jpg"
-}
-```
-
-#### PUT /mascotas/{id}
-Actualiza una mascota existente.
-
-**Parámetros:**
-- `nombre` (string, requerido): Nombre de la mascota
-- `genero` (string, requerido): Género de la mascota (Macho/Hembra)
-- `especie` (string, requerido): Especie de la mascota
-- `fechaNacimiento` (string, opcional): Fecha de nacimiento de la mascota en formato YYYY-MM-DD
-- `foto` (file, opcional): Foto de la mascota
-
-**Respuesta:**
-```json
-{
-  "id": 1,
-  "nombre": "Nombre actualizado",
-  "genero": "Hembra",
-  "especie": "Gato",
-  "usuarioId": 1,
-  "fechaNacimiento": "2021-02-15",
-  "foto": "/uploads/mascotas/nuevo-archivo.jpg"
-}
-```
-
-#### GET /mascotas/{id}
-Obtiene una mascota específica.
-
-**Respuesta:**
-```json
-{
-  "id": 1,
-  "nombre": "Nombre de la mascota",
-  "genero": "Macho",
-  "especie": "Perro",
-  "usuarioId": 1,
-  "fechaNacimiento": "2020-01-01",
-  "foto": "/uploads/mascotas/nombre-archivo.jpg"
-}
-```
-
-#### DELETE /mascotas/{id}
-Elimina una mascota específica.
-
-**Respuesta:**
-- 204 No Content si la eliminación fue exitosa
-- 404 Not Found si la mascota no existe

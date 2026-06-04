@@ -1,164 +1,104 @@
 # Manejo de Archivos en Patitas Conectadas
 
 ## Descripción General
-El sistema permite la carga y gestión de imágenes para las publicaciones (posts). Las imágenes se almacenan en el servidor y se sirven a través de URLs públicas.
+
+Las imágenes del sistema se almacenan en **Cloudinary**, un servicio de almacenamiento en la nube. Esto garantiza persistencia entre despliegues y elimina la dependencia del sistema de archivos local del servidor.
 
 ## Configuración
-- Tamaño máximo de archivo: 10MB
-- Tipos de archivo permitidos: Imágenes (image/*)
-- Directorio de almacenamiento: `uploads/posts/YYYY/MM/`
-- URL base para acceder a las imágenes: `/uploads/posts/YYYY/MM/`
 
-## Estructura de Directorios
-```
-uploads/
-  └── posts/
-      └── YYYY/
-          └── MM/
-              └── [nombre-archivo-unico].[extension]
+Las siguientes variables de entorno son necesarias:
+
+```env
+CLOUDINARY_CLOUD_NAME=tu_cloud_name
+CLOUDINARY_API_KEY=tu_api_key
+CLOUDINARY_API_SECRET=tu_api_secret
 ```
 
-## Endpoints
+### Límites
+- Tamaño máximo de archivo: **10MB**
+- Tipos de archivo permitidos: imágenes (`image/jpeg`, `image/png`, `image/gif`, `image/webp`)
 
-### Crear Post con Imagen
+## Recursos que admiten imagen
+
+| Recurso | Campo | Endpoint de subida |
+|---|---|---|
+| Posts | `img` | `POST /posts`, `PUT /posts/{id}` |
+| Mascotas | `foto` | `POST /usuarios/{id}/mascotas`, `PUT /usuarios/{id}/mascotas/{mascotaId}` |
+| Perfiles | `img` | `POST /perfiles`, `PUT /usuarios/{id}/perfiles` |
+| Comentarios | `img` | `POST /posts/{postId}/comentarios`, `PUT /comentarios/{id}` |
+
+## Endpoints con subida de imagen
+
+Todos los endpoints que aceptan imagen usan `multipart/form-data`.
+
+### Crear post con imagen
 ```http
 POST /posts
 Content-Type: multipart/form-data
 
-Parámetros:
-- contenido: string (requerido)
-- creadorId: number (requerido)
-- grupoId: number (opcional)
-- imagen: file (opcional)
+contenido: string (requerido)
+creadorId: number (requerido)
+grupoId: number (opcional)
+imagen: file (opcional)
+```
 
-Respuesta exitosa (201 Created):
+**Respuesta:**
+```json
 {
-  "id": number,
-  "contenido": string,
-  "fecha": string,
-  "img": string,  // Ruta relativa de la imagen
-  "creador": {
-    "id": number,
-    "nombre": string
-  },
-  "grupo": {
-    "id": number,
-    "nombre": string
-  }
+  "id": 1,
+  "contenido": "Hoy adopté un perrito",
+  "img": "https://res.cloudinary.com/<cloud>/image/upload/v.../nombre.jpg",
+  "creadorId": 1,
+  "fecha": "2024-03-20T15:30:00"
 }
 ```
 
-### Actualizar Post con Imagen
+### Actualizar post con imagen
 ```http
 PUT /posts/{id}
 Content-Type: multipart/form-data
 
-Parámetros:
-- contenido: string (requerido)
-- grupoId: number (opcional)
-- imagen: file (opcional)
-
-Respuesta exitosa (200 OK):
-{
-  "id": number,
-  "contenido": string,
-  "fecha": string,
-  "img": string,  // Ruta relativa de la imagen
-  "creador": {
-    "id": number,
-    "nombre": string
-  },
-  "grupo": {
-    "id": number,
-    "nombre": string
-  }
-}
+contenido: string (requerido)
+grupoId: number (opcional)
+imagen: file (opcional)
 ```
 
-## Ejemplos de Uso
+**Notas:**
+- Si se sube una nueva imagen, la anterior se elimina automáticamente de Cloudinary.
+- Si no se envía imagen, la imagen anterior se conserva.
 
-### Frontend (JavaScript)
+## Ejemplo de uso desde el frontend
+
 ```javascript
-// Crear un nuevo post con imagen
 const formData = new FormData();
-formData.append('contenido', 'Contenido del post');
+formData.append('contenido', 'Mi nuevo post');
 formData.append('creadorId', 1);
-formData.append('grupoId', 2);
-formData.append('imagen', archivoImagen); // archivoImagen es un objeto File
+formData.append('imagen', archivoImagen); // objeto File
 
-fetch('/posts', {
+const response = await fetch('/posts', {
   method: 'POST',
+  headers: { Authorization: `Bearer ${token}` },
   body: formData
-})
-.then(response => response.json())
-.then(data => console.log(data));
-
-// Actualizar un post con nueva imagen
-const formData = new FormData();
-formData.append('contenido', 'Contenido actualizado');
-formData.append('imagen', nuevaImagen);
-
-fetch('/posts/1', {
-  method: 'PUT',
-  body: formData
-})
-.then(response => response.json())
-.then(data => console.log(data));
-```
-
-### Frontend (HTML)
-```html
-<form id="postForm">
-  <textarea name="contenido" required></textarea>
-  <input type="file" name="imagen" accept="image/*">
-  <button type="submit">Publicar</button>
-</form>
-
-<script>
-document.getElementById('postForm').onsubmit = async (e) => {
-  e.preventDefault();
-  const formData = new FormData(e.target);
-  formData.append('creadorId', 1); // ID del usuario actual
-  
-  const response = await fetch('/posts', {
-    method: 'POST',
-    body: formData
-  });
-  const data = await response.json();
-  console.log(data);
-};
-</script>
+});
+const data = await response.json();
+// data.img contiene la URL pública de Cloudinary
 ```
 
 ## Manejo de Errores
 
-### Errores Comunes
-- `400 Bad Request`: 
-  - Archivo vacío
-  - Tipo de archivo no permitido
-  - Tamaño de archivo excede el límite
-- `404 Not Found`: 
-  - Usuario o grupo no encontrado
-- `500 Internal Server Error`: 
-  - Error al procesar la imagen
-  - Error al guardar el archivo
+| Código | Causa |
+|---|---|
+| `400 Bad Request` | Archivo vacío, tipo no permitido o tamaño excede el límite |
+| `404 Not Found` | Usuario, grupo o recurso no encontrado |
+| `500 Internal Server Error` | Error al subir o eliminar imagen en Cloudinary |
 
-### Ejemplo de Respuesta de Error
+**Ejemplo de respuesta de error:**
 ```json
 {
   "error": "Solo se permiten archivos de imagen"
 }
 ```
 
-## Consideraciones de Seguridad
-1. Se validan los tipos MIME de los archivos
-2. Se generan nombres únicos para evitar colisiones
-3. Se organizan los archivos por año/mes para mejor gestión
-4. Se eliminan las imágenes antiguas al actualizar o eliminar posts
+## Comportamiento al eliminar
 
-## Buenas Prácticas
-1. Comprimir las imágenes antes de subirlas
-2. Usar formatos web optimizados (JPEG, PNG, WebP)
-3. Implementar validación de tamaño en el frontend
-4. Mostrar previsualización de la imagen antes de subir
-5. Manejar errores y mostrar mensajes al usuario
+Al eliminar un post, mascota o perfil, la imagen asociada se elimina automáticamente de Cloudinary para evitar acumulación de archivos huérfanos.
