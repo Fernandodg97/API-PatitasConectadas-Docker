@@ -1,204 +1,203 @@
-## Installation
+# API Patitas Conectadas
 
-Installation PostgreSQL
+---
+
+### 👋 Para recruiters
+
+API REST para una **red social de dueños de mascotas**, desarrollada de forma autónoma como proyecto personal de portafolio.
+
+**Stack:** Java 21 · Spring Boot 3 · Spring Security · JWT · PostgreSQL · Cloudinary · Docker · Supabase
+
+**Destacado:**
+- 🔐 **Autenticación JWT** con Spring Security y BCrypt para contraseñas
+- ☁️ **Almacenamiento persistente de imágenes** en Cloudinary (posts, mascotas, perfiles)
+- 🐳 **Dockerizado** con build multi-stage y despliegue listo para producción
+- 🗄️ **Base de datos en la nube** con PostgreSQL en Supabase + SSL
+- 📄 **Swagger/OpenAPI** disponible en `/swagger-ui/index.html#/`
+- 📡 **14 controladores REST** cubriendo autenticación, posts, chat, grupos, eventos, mascotas y más
+
+---
+
+## 🧠 ¿Qué es Patitas Conectadas?
+
+Una plataforma social pensada para conectar a dueños de mascotas. Los usuarios pueden:
+
+- Crear un perfil personal con foto, descripción y sus mascotas
+- Publicar posts con imágenes y comentarlos
+- Chatear directamente con otros usuarios
+- Crear y unirse a grupos temáticos (paseos, razas, etc.)
+- Organizar y apuntarse a eventos
+- Seguir a otros usuarios y valorarlos con puntuación de 1 a 5 estrellas
+
+---
+
+## 🚀 Tecnologías
+
+| Categoría | Tecnología |
+|---|---|
+| Lenguaje | Java 21 |
+| Framework | Spring Boot 3.4.4 |
+| Seguridad | Spring Security + JWT (jjwt 0.9.1) |
+| ORM | Spring Data JPA + Hibernate |
+| Base de datos | PostgreSQL (Supabase) |
+| Almacenamiento | Cloudinary |
+| Documentación | SpringDoc OpenAPI (Swagger) |
+| Contenedores | Docker (multi-stage, eclipse-temurin:21) |
+| Pool de conexiones | HikariCP |
+
+---
+
+## 📡 Endpoints principales
+
+### Auth
+| Método | Ruta | Descripción |
+|---|---|---|
+| POST | `/auth/register` | Registro de usuario |
+| POST | `/auth/login` | Login — devuelve JWT |
+| GET | `/auth/me` | Usuario autenticado actual con perfil y mascotas |
+
+### Usuarios y perfiles
+| Método | Ruta | Descripción |
+|---|---|---|
+| GET | `/usuarios` | Listar usuarios |
+| GET | `/usuarios/{id}` | Obtener usuario por ID |
+| PUT | `/usuarios/{id}` | Actualizar usuario |
+| DELETE | `/usuarios/{id}` | Eliminar usuario |
+| GET | `/perfiles/{id}` | Obtener perfil con imagen |
+| PUT | `/perfiles/{id}` | Actualizar perfil (multipart) |
+
+### Mascotas
+| Método | Ruta | Descripción |
+|---|---|---|
+| GET | `/usuarios/{id}/mascotas` | Listar mascotas del usuario |
+| POST | `/usuarios/{id}/mascotas` | Añadir mascota con foto |
+| PUT | `/usuarios/{id}/mascotas/{mascotaId}` | Actualizar mascota |
+| DELETE | `/usuarios/{id}/mascotas/{mascotaId}` | Eliminar mascota |
+
+### Posts y comentarios
+| Método | Ruta | Descripción |
+|---|---|---|
+| GET | `/posts` | Listar todos los posts |
+| POST | `/posts` | Crear post con imagen (multipart) |
+| PUT | `/posts/{id}` | Actualizar post |
+| DELETE | `/posts/{id}` | Eliminar post |
+| GET | `/comentarios/post/{postId}` | Comentarios de un post |
+| POST | `/comentarios` | Añadir comentario con imagen |
+
+### Social
+| Método | Ruta | Descripción |
+|---|---|---|
+| POST | `/chat/enviar` | Enviar mensaje directo |
+| GET | `/chat/conversacion` | Obtener conversación entre dos usuarios |
+| PATCH | `/chat/marcar-leido` | Marcar mensajes como leídos |
+| POST | `/seguido` | Seguir a un usuario |
+| DELETE | `/seguido` | Dejar de seguir |
+| POST | `/valoracion` | Valorar a un usuario (1-5 estrellas) |
+
+### Grupos y eventos
+| Método | Ruta | Descripción |
+|---|---|---|
+| GET | `/grupos` | Listar grupos |
+| POST | `/grupos` | Crear grupo |
+| GET | `/grupos/{id}/miembros` | Miembros de un grupo |
+| GET | `/eventos` | Listar eventos |
+| POST | `/eventos` | Crear evento |
+
+> Documentación interactiva completa en `/swagger-ui/index.html#/`
+
+---
+
+## 🗄️ Modelo de datos
+
+14 entidades principales:
+
+- **usuario** — cuenta de usuario (email, password BCrypt)
+- **perfil** — perfil público (descripción, fecha nacimiento, imagen Cloudinary)
+- **mascota** — mascotas del usuario (especie, género, foto, fecha nacimiento)
+- **post** — publicaciones con imagen y timestamp
+- **comentario** — comentarios sobre posts con imagen opcional
+- **chat** — mensajes directos entre usuarios (con estado visto/no visto)
+- **evento** — eventos con ubicación y fecha
+- **grupo** — comunidades temáticas
+- **seguido** — relación seguidor/seguido
+- **valoracion** — puntuaciones entre usuarios (1-5 + comentario)
+- **notificaciones** — sistema de notificaciones
+- **usuario_evento** — asistencia a eventos (CREADOR / ASISTENTE)
+- **usuario_grupo** — membresía en grupos (Admin / Miembro)
+- **usuario_post** — interacciones con posts
+
+---
+
+## 🔐 Autenticación
+
+La API usa JWT. Para acceder a los endpoints protegidos:
+
+1. `POST /auth/login` con `email` y `password`
+2. Copiar el token de la respuesta
+3. Incluirlo en el header de las siguientes peticiones:
+
+```
+Authorization: Bearer <token>
+```
+
+---
+
+## 🐳 Instalación con Docker
 
 ```bash
-  sudo apt update
-
-  sudo apt install -y postgresql
-
-  systemctl status postgresql
+git clone https://github.com/Fernandodg97/API-PatitasConectadas-Docker
+cd API-PatitasConectadas-Docker
 ```
-New user
+
+Crear un archivo `.env` con las variables necesarias:
+
+```env
+DATABASE_URL=jdbc:postgresql://<host>/<db>?sslmode=require
+DATABASE_USERNAME=tu_usuario
+DATABASE_PASSWORD=tu_password
+CLOUDINARY_CLOUD_NAME=tu_cloud_name
+CLOUDINARY_API_KEY=tu_api_key
+CLOUDINARY_API_SECRET=tu_api_secret
+```
 
 ```bash
-sudo -iu postgres createuser -P --interactive fernando
-```
-View:
-```bash
-Enter password for new role: *******
-Enter it again: *******
-Shall the new role be a superuser? (y/n) y
+docker build -t api-patitas .
+docker run -p 8080:8080 --env-file .env api-patitas
 ```
 
-New database
-```bash
-createdb fernando -O fernando
-```
+La API queda disponible en `http://localhost:8080`
 
-Conexion
+---
+
+## ⚙️ Instalación sin Docker
+
+Requisitos: **Java 21** y **Maven**
 
 ```bash
-psql -U fernando -d postgres
+./mvnw spring-boot:run
 ```
 
-External Conexion
-```bash
-psql -U fernando -d fernando -h localhost -p 5432
+---
+
+## 📂 Estructura del proyecto
+
+```
+src/main/java/net/xeill/elpuig/apipatitasconectadas/
+├── controllers/rest/     # 14 controladores REST
+├── controllers/dto/      # 33 DTOs de entrada/salida
+├── models/               # 14 entidades JPA
+├── repositories/         # Repositorios Spring Data
+├── services/             # Lógica de negocio
+├── config/               # CORS y configuración MVC
+└── security/             # JWT + Spring Security
 ```
 
-Installation pgAdmin
+---
 
-Install the public key for the repository (if not done previously):
+## Autores
 
-```bash
-curl -fsS https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo gpg --dearmor -o /usr/share/keyrings/packages-pgadmin-org.gpg
-```
+- [@Fernandodg97](https://github.com/Fernandodg97)
 
-Create the repository configuration file:
+## Licencia
 
-```bash
-sudo sh -c 'echo "deb [signed-by=/usr/share/keyrings/packages-pgadmin-org.gpg] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
-```
-Install for both desktop and web modes:
-```bash
-sudo apt install pgadmin4
-```
-Install for desktop mode only:
-```bash
-sudo apt install pgadmin4-desktop
-```
-Install for web mode only: 
-```bash
-sudo apt install pgadmin4-web 
-```
-Configure the webserver, if you installed pgadmin4-web:
-```bash
-sudo /usr/pgadmin4/bin/setup-web.sh
-```
-
-# Documentación de la API Patitas Conectadas
-
-Para la documentación completa de todas las rutas de la API con ejemplos JSON y explicaciones detalladas, consulte el archivo [API-DOCS.md](API-DOCS.md).
-
-Para información sobre el manejo de archivos e imágenes en el sistema, incluyendo configuración, endpoints y ejemplos de uso, consulte el archivo [FileStorage.md](FileStorage.md).
-
-# Documentación API - Módulo de Perfiles
-
-## Descripción General
-Este módulo permite gestionar los perfiles de usuarios en el sistema. Cada perfil está asociado a un usuario específico y contiene información personal como descripción, fecha de nacimiento e imagen.
-
-## Endpoints
-
-### 1. Obtener todos los perfiles
-- **Método**: GET
-- **URL**: `/perfiles`
-- **Descripción**: Retorna una lista de todos los perfiles existentes en el sistema
-- **Respuesta Exitosa**:
-  ```json
-  [
-    {
-      "id": 1,
-      "usuario_id": 123,
-      "descripcion": "Descripción del perfil",
-      "fecha_nacimiento": "1990-01-01",
-      "img": "url_imagen"
-    }
-  ]
-  ```
-
-### 2. Crear un nuevo perfil
-- **Método**: POST
-- **URL**: `/perfiles`
-- **Descripción**: Crea un nuevo perfil en el sistema
-- **Cuerpo de la Petición**:
-  ```json
-  {
-    "usuario_id": 123,
-    "descripcion": "Descripción del perfil",
-    "fecha_nacimiento": "1990-01-01",
-    "img": "url_imagen"
-  }
-  ```
-- **Respuesta Exitosa** (201 Created):
-  ```json
-  {
-    "id": 1,
-    "usuario_id": 123,
-    "descripcion": "Descripción del perfil",
-    "fecha_nacimiento": "1990-01-01",
-    "img": "url_imagen"
-  }
-  ```
-
-### 3. Obtener perfil por ID de usuario
-- **Método**: GET
-- **URL**: `/usuarios/{id}/perfiles`
-- **Descripción**: Obtiene el perfil asociado a un usuario específico
-
-### 4. Actualizar perfil
-- **Método**: POST
-- **URL**: `/usuarios/{id}/perfiles`
-- **Descripción**: Actualiza la información de un perfil existente
-
-### 5. Eliminar perfil
-- **Método**: DELETE
-- **URL**: `/usuarios/{id}/perfiles`
-- **Descripción**: Elimina un perfil del sistema
-
-## Manejo de Imágenes
-
-### 1. Crear Post con Imagen
-- **Método**: POST
-- **URL**: `/posts`
-- **Content-Type**: multipart/form-data
-- **Parámetros**:
-  - contenido: string (requerido)
-  - creadorId: number (requerido)
-  - grupoId: number (opcional)
-  - imagen: file (opcional)
-- **Notas**:
-  - Tipos de archivo permitidos: jpg, jpeg, png, gif
-  - Tamaño máximo: 10MB
-  - Las imágenes se almacenan en `uploads/posts/YYYY/MM/`
-  - Las URLs son accesibles vía `/uploads/posts/YYYY/MM/nombre-archivo`
-
-### 2. Actualizar Post con Imagen
-- **Método**: PUT
-- **URL**: `/posts/{id}`
-- **Content-Type**: multipart/form-data
-- **Parámetros**:
-  - contenido: string (requerido)
-  - grupoId: number (opcional)
-  - imagen: file (opcional)
-- **Notas**:
-  - Al actualizar con nueva imagen, la anterior se elimina automáticamente
-  - Mismos requisitos de formato y tamaño que en la creación
-
-### 3. Eliminar Post con Imagen
-- **Método**: DELETE
-- **URL**: `/posts/{id}`
-- **Descripción**: Elimina el post y su imagen asociada del sistema
-
-## Modelo de Datos
-
-### PerfilModel
-```json
-{
-  "id": "Long",
-  "usuario_id": "Long",
-  "descripcion": "String",
-  "fecha_nacimiento": "Date (formato: YYYY-MM-DD)",
-  "img": "String (URL de la imagen)"
-}
-```
-
-## Consideraciones Importantes
-1. El campo `fecha_nacimiento` debe ser enviado en formato YYYY-MM-DD
-2. El campo `img` debe contener la URL completa de la imagen
-3. El `usuario_id` debe corresponder a un usuario existente en el sistema
-4. Todos los endpoints requieren autenticación
-5. Para el manejo de imágenes:
-   - Se validan los tipos MIME de los archivos
-   - Se generan nombres únicos para evitar colisiones
-   - Se organizan los archivos por año/mes
-   - Se eliminan las imágenes antiguas al actualizar o eliminar posts
-
-## Manejo de Errores
-- Los errores 500 indican problemas del servidor
-- Los errores 404 indican que el recurso no fue encontrado
-- Los errores 400 indican que la petición es inválida
-- Para imágenes:
-  - Error 400 si el archivo está vacío
-  - Error 400 si el tipo de archivo no está permitido
-  - Error 400 si el tamaño excede el límite
+[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)
