@@ -1,0 +1,15 @@
+name: Mantener API y Supabase Despiertos
+
+on:
+  schedule:
+    # Se ejecuta cada hora en punto (00:00, 01:00, 02:00, etc.)
+    - cron: '0 * * * *'
+  workflow_dispatch: # Permite activarlo manualmente desde GitHub si quieres
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Peticion a la API del Portafolio
+        run: |
+          curl -s https://api-patitasconectadas-docker.onrender.com/usuarios > /dev/null
