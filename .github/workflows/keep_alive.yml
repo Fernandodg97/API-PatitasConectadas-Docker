@@ -3,8 +3,11 @@ name: Mantener API y Supabase Despiertos
 on:
   schedule:
     # Se ejecuta cada hora en punto (00:00, 01:00, 02:00, etc.)
-    - cron: '0 * * * *'
-  workflow_dispatch: # Permite activarlo manualmente desde GitHub si quieres
+    # - cron: '0 * * * *'
+    
+    # Se ejecuta todos los domingos a las 03:15 UTC
+    - cron: '15 3 * * 0'
+  workflow_dispatch: # Permite activarlo manualmente desde GitHub
 
 jobs:
   ping:
