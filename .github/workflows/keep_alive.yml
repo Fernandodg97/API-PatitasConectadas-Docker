@@ -15,4 +15,4 @@ jobs:
     steps:
       - name: Peticion a la API del Portafolio
         run: |
-          curl -s https://api-patitasconectadas-docker.onrender.com/usuarios > /dev/null
+          curl -f -s --max-time 60 --retry 3 https://api-patitasconectadas-docker.onrender.com/usuarios > /dev/null
